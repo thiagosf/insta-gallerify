@@ -18,6 +18,9 @@ body {
   width: 100vw;
   height: 100vh;
   background: #333;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .app .slick-next {
@@ -47,6 +50,15 @@ body {
 .app .slick-slider {
   width: 100vw;
   height: 100vh;
+}
+.app__start-message {
+  color: white;
+  text-transform: uppercase;
+  font-weight: bold;
+  opacity: 0.1;
+  font-size: 5vw;
+  padding: 20px;
+  pointer-events: none;
 }
 
 .main-header {

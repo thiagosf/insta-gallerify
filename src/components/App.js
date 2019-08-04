@@ -16,6 +16,9 @@ class App extends Component {
           onSetUsername={this._onSetUsername}
         />
         <Gallery images={images} />
+        {images.length === 0 &&
+          <p className="app__start-message">Fill the username <span role="img">☝️</span></p>
+        }
       </div>
     )
   };

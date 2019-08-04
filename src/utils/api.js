@@ -20,7 +20,7 @@ export default {
             }
           })
           images = _.sortBy(images, 'likes').reverse()
-          images = images.slice(0, 30)
+          images = images.slice(0, 50)
         }
       }
       return images
