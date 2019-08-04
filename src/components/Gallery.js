@@ -8,7 +8,19 @@ class Gallery extends Component {
     images: []
   };
 
+  componentDidUpdate (prevProps) {
+    if (
+      this.props.images.length !== prevProps.images.length ||
+      this.props.images[0] === prevProps.images[0]
+    ) {
+      if (this.slider) {
+        this.slider.slickGoTo(0)
+      }
+    }
+  };
+
   render() {
+    const { images } = this.props
     const settings = {
       dots: false,
       infinite: true,
@@ -16,10 +28,9 @@ class Gallery extends Component {
       slidesToShow: 1,
       slidesToScroll: 1,
       variableWidth: false,
-      accessibility: true
+      accessibility: true,
+      lazyLoad: 'progressive'
     }
-
-    const { images } = this.props
     if (images.length === 0) {
       return false
     }
@@ -34,9 +45,11 @@ class Gallery extends Component {
         />
       )
     })
-
     return (
-      <Slider {...settings}>
+      <Slider
+        ref={ref => this.slider = ref}
+        {...settings}
+      >
         {slides}
       </Slider>
     )

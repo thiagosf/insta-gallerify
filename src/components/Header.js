@@ -7,6 +7,15 @@ class Header extends Component {
     valid: false
   };
 
+  componentDidUpdate (prevProps) {
+    const { username } = this.props
+    if (username !== prevProps.username) {
+      this.setState({ username }, () => {
+        this._setValid()
+      })
+    }
+  }
+
   render () {
     const { username, valid } = this.state
     return (
@@ -18,6 +27,7 @@ class Header extends Component {
         }
         {!valid &&
           <input
+            autoFocus
             name='username'
             className="main-header__input"
             ref={ref => this.input = ref}
@@ -46,11 +56,12 @@ class Header extends Component {
   };
 
   _handleChange = event => {
-    this.setState({ username: event.target.value })
+    this.setState({ username: event.target.value.trim() })
   };
 
   _setValid = () => {
-    this.setState({ valid: true }, () => {
+    const valid = this.state.username !== ''
+    this.setState({ valid }, () => {
       this.props.onSetUsername(this.state.username)
     })
   };

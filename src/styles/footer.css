@@ -1,0 +1,15 @@
+.main-footer {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+}
+
+.main-footer__link {
+  color: white;
+  font-weight: 600;
+  font-size: 12px;
+}
+
+.main-footer__link:visited {
+  color: gray;
+}

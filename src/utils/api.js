@@ -12,7 +12,8 @@ export default {
       let images = []
       if (result.graphql) {
         const { edges, count } = result.graphql.user.edge_owner_to_timeline_media
-        if (count > 0) {
+        const isPrivate = result.graphql.user.is_private
+        if (count > 0 && !isPrivate) {
           images = edges.map(item => {
             return {
               url: item.node.display_url,
@@ -23,7 +24,12 @@ export default {
           })
         }
       }
+      if (images.length === 0) {
+        throw new Error('User not found or private')
+      }
       return images
+    }).catch(error => {
+      throw new Error('User not found or private')
     })
   }
 }

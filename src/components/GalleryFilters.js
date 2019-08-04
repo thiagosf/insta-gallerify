@@ -10,7 +10,7 @@ class GalleryFilters extends Component {
 
   state = {
     sort: 'recent',
-    limit: 30
+    limit: 50
   };
 
   render () {
@@ -43,11 +43,11 @@ class GalleryFilters extends Component {
   _getLimitFilters = () => {
     const { limit } = this.state
     const values = [{
-      value: 30,
-      label: 30
+      value: 10,
+      label: 10
     }, {
-      value: 70,
-      label: 70
+      value: 50,
+      label: 50
     }, {
       value: 0,
       label: 'all'
