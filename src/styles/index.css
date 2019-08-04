@@ -1,0 +1,29 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body,
+html {
+  position: fixed;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow: hidden;
+}
+
+/* smartphones, touchscreens */
+/* @reference: https://medium.com/@ferie/detect-a-touch-device-with-only-css-9f8e30fa1134 */
+@media (hover: none) and (pointer: coarse) {
+  .app .slick-prev,
+  .app .slick-next {
+    display: none !important;
+  }
+}

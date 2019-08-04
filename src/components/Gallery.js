@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import Slider from 'react-slick'
+import Photo from './Photo'
+import '../styles/gallery.css'
 
 class Gallery extends Component {
   static defaultProps = {
@@ -13,7 +15,7 @@ class Gallery extends Component {
       speed: 500,
       slidesToShow: 1,
       slidesToScroll: 1,
-      variableWidth: true,
+      variableWidth: false,
       accessibility: true
     }
 
@@ -23,9 +25,13 @@ class Gallery extends Component {
     }
     const slides = images.map((image, index) => {
       return (
-        <div key={index}>
-          <img src={image.url} alt='' />
-        </div>
+        <Photo
+          key={index}
+          url={image.url}
+          shortcode={image.shortcode}
+          timestamp={image.timestamp}
+          likes={image.likes}
+        />
       )
     })
 

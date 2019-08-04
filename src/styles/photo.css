@@ -1,0 +1,44 @@
+.photo {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+}
+
+.photo img {
+  width: 100vw;
+  height: 100vh;
+  display: block;
+  object-fit: contain;
+}
+
+.photo__info {
+  position: absolute;
+  z-index: 2;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0));
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.6);
+  padding: 100px 20px 20px 20px;
+  color: white;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 12px;
+}
+
+.photo__info__likes__icon {
+  display: inline-block;
+  margin-right: 5px;
+}
+
+.photo__info__timestamp {
+  color: white;
+  display: inline-block;
+  margin-left: 20px;
+}
+
+.photo__info__link {
+  color: white;
+  display: inline-block;
+  margin-left: 20px;
+}

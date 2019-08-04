@@ -1,11 +1,16 @@
 import React, { Component } from 'react'
 import Header from './Header'
 import Gallery from './Gallery'
-import api from '../utils/api'
+import GalleryFilters from './GalleryFilters'
+import { api, imageUtils } from '../utils'
+import '../styles/app.css'
 
 class App extends Component {
   state = {
-    images: []
+    images: [],
+    filters: {},
+    favorites: [],
+    showThumbs: false
   };
 
   render () {
@@ -15,9 +20,13 @@ class App extends Component {
         <Header
           onSetUsername={this._onSetUsername}
         />
-        <Gallery images={images} />
+        <GalleryFilters
+          filters={this.state.filters}
+          onChange={this._onFilter}
+        />
+        <Gallery images={this._galleryImages()} />
         {images.length === 0 &&
-          <p className="app__start-message">Fill the username <span role="img">☝️</span></p>
+          <p className="app__start-message">Fill the username <span role="img" aria-label="point_up">☝️</span></p>
         }
       </div>
     )
@@ -27,6 +36,20 @@ class App extends Component {
     return api.fetchUser(username).then(images => {
       this.setState({ images })
     })
+  };
+
+  _galleryImages = () => {
+    let list = []
+    const { images, filters } = this.state
+    if (images.length > 0) {
+      list = imageUtils.filterImages({ images, ...filters })
+    }
+    return list
+  };
+
+  _onFilter = filters => {
+    console.log('filters', filters)
+    this.setState({ filters })
   };
 }
 

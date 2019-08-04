@@ -1,0 +1,49 @@
+.main-header {
+  position: absolute;
+  z-index: 2;
+  top: 20px;
+  right: 20px;
+  background: #111;
+  padding: 20px 10px;
+  height: 60px;
+  border-radius: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.main-header__user {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  padding: 0 10px;
+}
+
+.main-header__user__avatar {
+  width: 30px;
+  height: 30px;
+  object-fit: cover;
+  border-radius: 15px;
+  margin-right: 10px;
+}
+
+.main-header__user__name {
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.main-header__input {
+  background: #333;
+  border-radius: 20px;
+  border: 0;
+  color: white;
+  font-size: 18px;
+  height: 40px;
+  width: 150px;
+  text-align: center;
+  font-weight: bold;
+}
+.main-header__input::placeholder {
+  opacity: 0.2;
+}

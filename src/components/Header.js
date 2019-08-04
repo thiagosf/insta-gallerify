@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import '../styles/header.css'
 
 class Header extends Component {
   state = {
@@ -25,6 +26,7 @@ class Header extends Component {
             placeholder="@username"
             onChange={this._handleChange}
             onKeyPress={this._handleKey}
+            onBlur={this._handleBlur}
           />
         }
       </header>
@@ -33,14 +35,24 @@ class Header extends Component {
 
   _handleKey = event => {
     if (event.key === 'Enter') {
-      this.setState({ valid: true }, () => {
-        this.props.onSetUsername(this.state.username)
-      })
+      this._setValid()
+    }
+  };
+
+  _handleBlur = () => {
+    if (this.state.username) {
+      this._setValid()
     }
   };
 
   _handleChange = event => {
     this.setState({ username: event.target.value })
+  };
+
+  _setValid = () => {
+    this.setState({ valid: true }, () => {
+      this.props.onSetUsername(this.state.username)
+    })
   };
 
   _edit = () => {
