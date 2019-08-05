@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Insta Gallerify",
+  "name": "Build gallery with instagram public profiles",
   "icons": [
     {
       "src": "favicon.ico",
