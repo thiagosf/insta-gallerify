@@ -16,8 +16,8 @@
   color: white;
   text-transform: uppercase;
   font-weight: 600;
-  font-size: 16px;
-  padding: 20px;
+  font-size: 14px;
+  padding: 0 20px 20px 20px;
   pointer-events: none;
   font-style: italic;
 }
@@ -26,8 +26,8 @@
   color: white;
   text-transform: uppercase;
   font-weight: 900;
-  font-size: 48px;
-  padding: 20px;
+  font-size: 28px;
+  padding: 0 20px 20px 20px;
   pointer-events: none;
 }
 
@@ -36,7 +36,7 @@
   font-weight: 600;
   margin: 0 0 20px 0;
   text-transform: uppercase;
-  font-size: 14px;
+  font-size: 12px;
 }
 
 .app__start__example-users {
@@ -47,11 +47,30 @@
 .app__start__example-users li span {
   transition: all 200ms;
   cursor: pointer;
-  font-size: 36px;
+  font-size: 20px;
+  line-height: 1.5;
   font-weight: 300;
-  border-bottom: 4px solid rgba(255, 255, 255, 0);
+  border-bottom: 2px solid rgba(255, 255, 255, 0);
 }
 
 .app__start__example-users li span:hover {
   border-color: rgba(255, 255, 255, 1);
+}
+
+@media (min-width: 768px) {
+  .app__start__error {
+    font-size: 16px;
+  }
+
+  .app__start__message {
+    font-size: 48px;
+  }
+
+  .app__start__example {
+    font-size: 14px;
+  }
+
+  .app__start__example-users li span {
+    font-size: 36px;
+  }
 }

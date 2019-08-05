@@ -7,7 +7,9 @@ class Photo extends Component {
     url: '',
     shortcode: '',
     timestamp: '',
-    likes: 0
+    likes: 0,
+    favorite: false,
+    onFavorite: () => {}
   };
 
   render() {
@@ -15,9 +17,14 @@ class Photo extends Component {
     return (
       <div className="photo">
         <div className="photo__info">
-          <span className="photo__info__likes">
-            <span className="photo__info__likes__icon" role="img" aria-label="heart">❤️</span> {this._friendlyLikes()}
-          </span>
+          <div className="photo__info__vertical-group">
+            <span className={this._getFavoriteClasses()} onClick={this._toggleFavorite}>
+              <span className="photo__info__favorite__icon" role="img" aria-label="star">⭐️</span>
+            </span>
+            <span className="photo__info__likes">
+              <span className="photo__info__likes__icon" role="img" aria-label="heart">❤️</span> {this._friendlyLikes()}
+            </span>
+          </div>
           <span className="photo__info__timestamp">
             {this._getDate()}
           </span>
@@ -41,6 +48,23 @@ class Photo extends Component {
   _getDate = () => {
     const { timestamp } = this.props
     return (new Date(+timestamp * 1000)).toLocaleString()
+  };
+
+  _getFavoriteClasses = () => {
+    let classes = ['photo__info__favorite']
+    if (this.props.favorite) {
+      classes.push('photo__info__favorite--active')
+    }
+    return classes.join(' ')
+  };
+
+  _toggleFavorite = () => {
+    this.props.onFavorite({
+      url: this.props.url,
+      shortcode: this.props.shortcode,
+      timestamp: this.props.timestamp,
+      likes: this.props.likes
+    })
   };
 }
 

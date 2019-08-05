@@ -24,6 +24,8 @@
   text-transform: uppercase;
   font-weight: bold;
   font-size: 12px;
+  display: flex;
+  align-items: flex-end;
 }
 
 .photo__info__likes__icon {
@@ -41,4 +43,21 @@
   color: white;
   display: inline-block;
   margin-left: 20px;
+}
+
+.photo__info__vertical-group {
+  display: inline-flex;
+  flex-direction: column;
+}
+
+.photo__info__favorite {
+  margin-bottom: 10px;
+  display: inline-block;
+  opacity: 0.2;
+  cursor: pointer;
+  font-size: 30px;
+}
+
+.photo__info__favorite--active {
+  opacity: 1;
 }

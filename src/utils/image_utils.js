@@ -17,5 +17,47 @@ export default {
       filteredImages = filteredImages.slice(0, limit)
     }
     return filteredImages
+  },
+
+  /**
+   * Adiciona favorito
+   * @param {object} photo
+   */
+  toggleFavorite (photo) {
+    let favorites = this.getFavorites()
+    const favorite = favorites.find(item => item.url === photo.url)
+    if (!favorite) {
+      favorites.push(photo)
+    } else {
+      favorites = favorites.filter(item => item.url !== photo.url)
+    }
+
+    favorites = JSON.stringify(favorites)
+    localStorage.setItem('favorites', favorites)
+  },
+
+  /**
+   * Verifica se é favorito
+   * @param {object} photo
+   * @param {boolean}
+   */
+  isFavorite (photo) {
+    let favorites = this.getFavorites()
+    const favorite = favorites.find(item => item.url === photo.url)
+    return favorite !== undefined
+  },
+
+  /**
+   * Resgata favoritos
+   * @returns {object[]}
+   */
+  getFavorites () {
+    let favorites = localStorage.getItem('favorites')
+    if (favorites) {
+      favorites = JSON.parse(favorites)
+    } else {
+      favorites = []
+    }
+    return favorites
   }
 }

@@ -43,6 +43,7 @@
   width: 150px;
   text-align: center;
   font-weight: bold;
+  box-shadow: none !important;
 }
 .main-header__input::placeholder {
   opacity: 0.2;

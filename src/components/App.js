@@ -21,6 +21,7 @@ class App extends Component {
       'jaromvogel',
       'zatransis',
       'rebeccamillsdraws',
+      '⭐️'
     ]
   };
 
@@ -38,13 +39,17 @@ class App extends Component {
             onChange={this._onFilter}
           />
         }
-        <Gallery images={this._galleryImages()} />
+        {!loading &&
+          <Gallery images={this._galleryImages()} />
+        }
         {loading &&
           <Spinner />
         }
         {images.length === 0 && !loading &&
           <div className="app__start">
-            <p className="app__start__error">{error}</p>
+            {error &&
+              <p className="app__start__error">{error}</p>
+            }
             <p className="app__start__message">Fill the username <span role="img" aria-label="point_up">☝️</span></p>
             <p className="app__start__example">Examples:</p>
             <ul className="app__start__example-users">
@@ -59,16 +64,33 @@ class App extends Component {
 
   _onSetUsername = username => {
     if (username) {
-      if (username !== this.state.username) {
-        this.setState({ loading: true }, () => {
-          return api.fetchUser(username).then(images => {
-            this.setState({ username, images })
-          }).catch(error => {
-            this.setState({ error: error.message })
-          }).finally(() => {
-            this.setState({ loading: false })
+      if (username === '⭐️') {
+        const images = imageUtils.getFavorites()
+        if (images.length > 0) {
+          this.setState({ username, images })
+        } else {
+          this.setState({
+            error: 'You have no favorites yet!',
+            username: '',
+            images: []
           })
-        })
+        }
+      } else {
+        if (username !== this.state.username) {
+          this.setState({ loading: true }, () => {
+            return api.fetchUser(username).then(images => {
+              this.setState({ username, images })
+            }).catch(error => {
+              this.setState({
+                error: error.message,
+                username: '',
+                images: []
+              })
+            }).finally(() => {
+              this.setState({ loading: false })
+            })
+          })
+        }
       }
     } else {
       this.setState({ username: '', images: [] })
@@ -81,6 +103,12 @@ class App extends Component {
     if (images.length > 0) {
       list = imageUtils.filterImages({ images, ...filters })
     }
+    list = list.map(photo => {
+      return {
+        ...photo,
+        favorite: imageUtils.isFavorite(photo)
+      }
+    })
     return list
   };
 

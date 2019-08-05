@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Slider from 'react-slick'
 import Photo from './Photo'
+import { imageUtils } from '../utils'
 import '../styles/gallery.css'
 
 class Gallery extends Component {
@@ -41,7 +42,9 @@ class Gallery extends Component {
           url={image.url}
           shortcode={image.shortcode}
           timestamp={image.timestamp}
+          favorite={image.favorite}
           likes={image.likes}
+          onFavorite={this._onFavorite}
         />
       )
     })
@@ -53,7 +56,11 @@ class Gallery extends Component {
         {slides}
       </Slider>
     )
-  }
+  };
+
+  _onFavorite = photo => {
+    imageUtils.toggleFavorite(photo)
+  };
 }
 
 export default Gallery

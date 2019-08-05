@@ -1,6 +1,6 @@
 # insta-gallerify
 
-Build gallery with Instagram public profile
+Build gallery with instagram public profiles
 
 ## Dev
 
