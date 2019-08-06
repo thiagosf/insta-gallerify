@@ -4,7 +4,8 @@ import '../styles/header.css'
 class Header extends Component {
   state = {
     username: '',
-    valid: false
+    valid: false,
+    fullscreen: false
   };
 
   componentDidUpdate (prevProps) {
@@ -20,6 +21,7 @@ class Header extends Component {
     const { username, valid } = this.state
     return (
       <header className="main-header">
+        <span className="main-header__fullscreen" onClick={this._toggleFullScreen}><span role="img" aria-label="eyeglasses">👓</span></span>
         {valid &&
           <div className="main-header__user"  onClick={this._edit}>
             <p className="main-header__user__name">{username}</p>
@@ -70,7 +72,17 @@ class Header extends Component {
     this.setState({ valid: false }, () => {
       this.input.select()
     })
-  }
+  };
+
+  _toggleFullScreen = () => {
+    this.setState({ fullscreen: !this.state.fullscreen }, () => {
+      if (this.state.fullscreen) {
+        document.body.requestFullscreen()
+      } else {
+        document.exitFullscreen()
+      }
+    })
+  };
 }
 
 export default Header

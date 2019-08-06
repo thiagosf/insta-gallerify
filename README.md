@@ -17,10 +17,12 @@ Fail :see_no_evil:
 
 ## Todo
 
-- [ ] Favicon
+- [x] Favicon
 - [x] Sort by: likes, recent
 - [x] Limit: 30, 70, unlimited
 - [ ] Favorites
 - [ ] Thumbs
 - [x] Photo info
-- [ ] Fullscreen
+- [x] Fullscreen
+- [ ] Pagination
+- [x] Share username in URL

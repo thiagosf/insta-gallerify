@@ -37,7 +37,10 @@ class Photo extends Component {
 
   _friendlyLikes = () => {
     const { likes } = this.props
-    return numeral(likes).format('0.0a')
+    if (likes > 1000) {
+      return numeral(likes).format('0.0a')
+    }
+    return likes
   };
 
   _getLink = () => {

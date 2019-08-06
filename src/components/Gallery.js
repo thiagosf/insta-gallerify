@@ -6,7 +6,8 @@ import '../styles/gallery.css'
 
 class Gallery extends Component {
   static defaultProps = {
-    images: []
+    images: [],
+    onFavorite: () => {}
   };
 
   componentDidUpdate (prevProps) {
@@ -60,6 +61,7 @@ class Gallery extends Component {
 
   _onFavorite = photo => {
     imageUtils.toggleFavorite(photo)
+    this.props.onFavorite(photo)
   };
 }
 

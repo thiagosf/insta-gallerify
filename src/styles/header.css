@@ -45,6 +45,22 @@
   font-weight: bold;
   box-shadow: none !important;
 }
+
 .main-header__input::placeholder {
   opacity: 0.2;
+}
+
+.main-header__fullscreen {
+  position: absolute;
+  top: 50%;
+  left: -50px;
+  cursor: pointer;
+  transform: translateY(-50%);
+  background: #111;
+  height: 40px;
+  width: 40px;
+  border-radius: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

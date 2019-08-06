@@ -25,6 +25,13 @@ class App extends Component {
     ]
   };
 
+  componentDidMount () {
+    if (window.location.hash) {
+      this._checkUsernameInHash(window.location.hash)
+    }
+    window.addEventListener('hashchange', this._onHashChange)
+  };
+
   render () {
     const { username, images, loading, error } = this.state
     return (
@@ -40,7 +47,10 @@ class App extends Component {
           />
         }
         {!loading &&
-          <Gallery images={this._galleryImages()} />
+          <Gallery
+            images={this._galleryImages()}
+            onFavorite={this._onFavorite}
+          />
         }
         {loading &&
           <Spinner />
@@ -64,7 +74,9 @@ class App extends Component {
 
   _onSetUsername = username => {
     if (username) {
-      if (username === '⭐️') {
+      if (username === '⭐️' || username === 'favorites') {
+        window.history.pushState({}, 'username_favorites', '#/@favorites')
+        document.title = `favorites / Insta Gallerify`
         const images = imageUtils.getFavorites()
         if (images.length > 0) {
           this.setState({ username, images })
@@ -76,6 +88,8 @@ class App extends Component {
           })
         }
       } else {
+        window.history.pushState({}, `username_${username}`, `#/@${username}`)
+        document.title = `@${username} / Insta Gallerify`
         if (username !== this.state.username) {
           this.setState({ loading: true }, () => {
             return api.fetchUser(username).then(images => {
@@ -127,6 +141,27 @@ class App extends Component {
         </li>
       )
     })
+  };
+
+  _checkUsernameInHash = hash => {
+    const parts = hash.split('@')
+    if (parts.length > 0) {
+      this._onSetUsername(parts[1])
+    }
+  };
+
+  _onHashChange = event => {
+    this._checkUsernameInHash(event.newURL)
+  };
+
+  _onFavorite = photo => {
+    const images = this.state.images.map(item => {
+      if (item.url === photo.url) {
+        item.favorite = !item.favorite
+      }
+      return item
+    })
+    this.setState({ images })
   };
 }
 
