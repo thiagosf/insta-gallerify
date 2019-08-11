@@ -25,11 +25,14 @@ class GalleryFilters extends Component {
   _getSortFilters = () => {
     const { sort } = this.state
     const values = [{
+      value: 'likes',
+      label: 'likes'
+    }, {
       value: 'recent',
       label: 'recent'
     }, {
-      value: 'likes',
-      label: 'likes'
+      value: 'oldest',
+      label: 'oldest'
     }]
     return (
       <GalleryFilter

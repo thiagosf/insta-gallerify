@@ -48,6 +48,7 @@ class App extends Component {
         }
         {!loading &&
           <Gallery
+            filters={this.state.filters}
             images={this._galleryImages()}
             onFavorite={this._onFavorite}
           />

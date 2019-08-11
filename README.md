@@ -20,9 +20,9 @@ Fail :see_no_evil:
 - [x] Favicon
 - [x] Sort by: likes, recent
 - [x] Limit: 30, 70, unlimited
-- [ ] Favorites
+- [x] Favorites
 - [ ] Thumbs
 - [x] Photo info
 - [x] Fullscreen
-- [ ] Pagination
+- [x] Pagination
 - [x] Share username in URL

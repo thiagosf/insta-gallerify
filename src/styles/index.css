@@ -30,4 +30,7 @@ body {
   .app .slick-next {
     display: none !important;
   }
+  .main-header__fullscreen {
+    display: none;
+  }
 }

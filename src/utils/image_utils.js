@@ -12,6 +12,8 @@ export default {
     let filteredImages = [].concat(images)
     if (sort === 'likes') {
       filteredImages = _.sortBy(filteredImages, 'likes').reverse()
+    } else if (sort === 'oldest') {
+      filteredImages = filteredImages.reverse()
     }
     if (limit > 0) {
       filteredImages = filteredImages.slice(0, limit)

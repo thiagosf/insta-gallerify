@@ -6,6 +6,7 @@ import '../styles/gallery.css'
 
 class Gallery extends Component {
   static defaultProps = {
+    filters: {},
     images: [],
     onFavorite: () => {}
   };
@@ -13,7 +14,7 @@ class Gallery extends Component {
   componentDidUpdate (prevProps) {
     if (
       this.props.images.length !== prevProps.images.length ||
-      this.props.images[0] === prevProps.images[0]
+      this.props.filters !== prevProps.filters
     ) {
       if (this.slider) {
         this.slider.slickGoTo(0)
