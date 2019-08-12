@@ -32,7 +32,7 @@ export default {
           // @todo: get queryHash dynamic
           const queryHash = 'f2405b236d85e8296cf30347c9f08c2a'
           const limit = 50
-          const maxPages = 10
+          const maxPages = 20
           let page = 1
 
           const loop = (endCursor) => {
