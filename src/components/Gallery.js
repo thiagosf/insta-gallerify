@@ -32,7 +32,7 @@ class Gallery extends Component {
       slidesToScroll: 1,
       variableWidth: false,
       accessibility: true,
-      lazyLoad: 'progressive'
+      lazyLoad: 'ondemand'
     }
     if (images.length === 0) {
       return false
