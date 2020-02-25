@@ -83,6 +83,7 @@ export default {
                     edges.forEach(item => {
                       images.push({
                         url: item.node.display_url,
+                        thumbnail_url: item.node.thumbnail_src,
                         shortcode: item.node.shortcode,
                         timestamp: item.node.taken_at_timestamp,
                         likes: +item.node.edge_media_preview_like.count

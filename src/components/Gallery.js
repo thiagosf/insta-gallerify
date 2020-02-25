@@ -82,7 +82,7 @@ class Gallery extends Component {
             <div key={index} className="gallery-thumb-view__item">
               <img
                 className="gallery-thumb-view__item__image"
-                src={item.url}
+                src={item.thumbnail_url}
                 alt={item.shortcode}
                 onClick={() => {
                   this.props.onSelectImage(index)
