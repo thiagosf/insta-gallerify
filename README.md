@@ -21,7 +21,7 @@ Fail :see_no_evil:
 - [x] Sort by: likes, recent
 - [x] Limit: 30, 70, unlimited
 - [x] Favorites
-- [ ] Thumbs
+- [x] Thumbs
 - [x] Photo info
 - [x] Fullscreen
 - [x] Pagination

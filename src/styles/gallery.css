@@ -29,3 +29,30 @@
   width: 100vw;
   height: 100vh;
 }
+
+.app .gallery-thumb-view {
+  width: 100%;
+  margin: 500px 0 0 0;
+  height: 100vh;
+  padding: 40px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  display: grid;
+  grid-gap: 20px;
+  grid-template-columns: repeat(2, 1fr);
+  align-content: flex-start;
+  align-items: center;
+}
+.app .gallery-thumb-view__item {
+
+}
+.app .gallery-thumb-view__item__image {
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .app .gallery-thumb-view {
+    margin: 0 300px 0 0;
+    grid-template-columns: repeat(4, 1fr);
+  }
+}

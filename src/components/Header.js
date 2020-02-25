@@ -2,11 +2,17 @@ import React, { Component } from 'react'
 import '../styles/header.css'
 
 class Header extends Component {
+  static defaultProps = {
+    loading: false,
+    username: null,
+    onSetUsername: () => {}
+  }
+
   state = {
     username: '',
     valid: false,
     fullscreen: false
-  };
+  }
 
   componentDidUpdate (prevProps) {
     const { username } = this.props
@@ -20,7 +26,7 @@ class Header extends Component {
   render () {
     const { username, valid } = this.state
     return (
-      <header className="main-header">
+      <header className={this._getClasses()}>
         <span className="main-header__fullscreen" onClick={this._toggleFullScreen}><span role="img" aria-label="eyeglasses">👓</span></span>
         {valid &&
           <div className="main-header__user"  onClick={this._edit}>
@@ -43,36 +49,44 @@ class Header extends Component {
         }
       </header>
     )
-  };
+  }
+
+  _getClasses = () => {
+    let classes = ['main-header']
+    if (this.props.loading) {
+      classes.push('main-header--loading')
+    }
+    return classes.join(' ')
+  }
 
   _handleKey = event => {
     if (event.key === 'Enter') {
       this._setValid()
     }
-  };
+  }
 
   _handleBlur = () => {
     if (this.state.username) {
       this._setValid()
     }
-  };
+  }
 
   _handleChange = event => {
     this.setState({ username: event.target.value.trim() })
-  };
+  }
 
   _setValid = () => {
     const valid = this.state.username !== ''
     this.setState({ valid }, () => {
       this.props.onSetUsername(this.state.username)
     })
-  };
+  }
 
   _edit = () => {
     this.setState({ valid: false }, () => {
       this.input.select()
     })
-  };
+  }
 
   _toggleFullScreen = () => {
     this.setState({ fullscreen: !this.state.fullscreen }, () => {
@@ -82,7 +96,7 @@ class Header extends Component {
         document.exitFullscreen()
       }
     })
-  };
+  }
 }
 
 export default Header

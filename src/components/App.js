@@ -16,6 +16,7 @@ class App extends Component {
     showThumbs: false,
     loading: false,
     error: null,
+    lastLimit: 50,
     exampleUsers: [
       'angrymikko',
       'jaromvogel',
@@ -23,34 +24,37 @@ class App extends Component {
       'rebeccamillsdraws',
       '⭐️'
     ]
-  };
+  }
 
   componentDidMount () {
     if (window.location.hash) {
       this._checkUsernameInHash(window.location.hash)
     }
     window.addEventListener('hashchange', this._onHashChange)
-  };
+  }
 
   render () {
     const { username, images, loading, error } = this.state
     return (
       <div className="app">
         <Header
+          loading={loading}
           username={username}
           onSetUsername={this._onSetUsername}
         />
-        {images.length > 0 && !loading &&
-          <GalleryFilters
-            filters={this.state.filters}
-            onChange={this._onFilter}
-          />
-        }
+        <GalleryFilters
+          loading={loading}
+          filters={this.state.filters}
+          onChange={this._onFilter}
+        />
         {!loading &&
           <Gallery
+            ref={ref => this.gallery = ref}
             filters={this.state.filters}
             images={this._galleryImages()}
             onFavorite={this._onFavorite}
+            thumbView={this.state.filters.mode === 'thumb'}
+            onSelectImage={this._onSelectImage}
           />
         }
         {loading &&
@@ -71,7 +75,7 @@ class App extends Component {
         <Footer />
       </div>
     )
-  };
+  }
 
   _onSetUsername = username => {
     if (username) {
@@ -91,26 +95,31 @@ class App extends Component {
       } else {
         window.history.pushState({}, `username_${username}`, `#/@${username}`)
         document.title = `@${username} / Insta Gallerify`
+        const lastLimit = this.state.filters.limit || this.state.lastLimit || 50
         if (username !== this.state.username) {
-          this.setState({ loading: true }, () => {
-            return api.fetchUser(username).then(images => {
-              this.setState({ username, images })
-            }).catch(error => {
-              this.setState({
-                error: error.message,
-                username: '',
-                images: []
-              })
-            }).finally(() => {
-              this.setState({ loading: false })
-            })
+          this.setState({ loading: true, lastLimit }, () => {
+            return this._loadData(username, this.state.filters.limit)
           })
         }
       }
     } else {
       this.setState({ username: '', images: [] })
     }
-  };
+  }
+
+  _loadData = (username, limit) => {
+    return api.fetchUser(username, limit).then(images => {
+      this.setState({ username, images })
+    }).catch(error => {
+      this.setState({
+        error: error.message,
+        username: '',
+        images: []
+      })
+    }).finally(() => {
+      this.setState({ loading: false })
+    })
+  }
 
   _galleryImages = () => {
     let list = []
@@ -125,11 +134,28 @@ class App extends Component {
       }
     })
     return list
-  };
+  }
 
-  _onFilter = filters => {
-    this.setState({ filters })
-  };
+  _onFilter = (name, value) => {
+    const filters = {
+      ...this.state.filters,
+      [name]: value
+    }
+    this.setState({ filters }, () => {
+      if (
+        this.state.lastLimit > 0 &&
+        (
+          this.state.lastLimit < filters.limit ||
+          (this.state.lastLimit !== 0 && filters.limit === 0)
+        )
+      ) {
+        const lastLimit = filters.limit
+        this.setState({ loading: true, lastLimit }, () => {
+          this._loadData(this.state.username, lastLimit)
+        })
+      }
+    })
+  }
 
   _getExampleUsers = () => {
     const { exampleUsers } = this.state
@@ -142,18 +168,18 @@ class App extends Component {
         </li>
       )
     })
-  };
+  }
 
   _checkUsernameInHash = hash => {
     const parts = hash.split('@')
     if (parts.length > 0) {
       this._onSetUsername(parts[1])
     }
-  };
+  }
 
   _onHashChange = event => {
     this._checkUsernameInHash(event.newURL)
-  };
+  }
 
   _onFavorite = photo => {
     const images = this.state.images.map(item => {
@@ -163,7 +189,17 @@ class App extends Component {
       return item
     })
     this.setState({ images })
-  };
+  }
+
+  _onSelectImage = index => {
+    const filters = {
+      ...this.state.filters,
+      mode: 'gallery'
+    }
+    this.setState({ filters }, () => {
+      this.gallery.goTo(index)
+    })
+  }
 }
 
 export default App

@@ -1,19 +1,23 @@
+:root {
+  --app-text-color: #555;
+}
+
 .app {
   width: 100vw;
   height: 100vh;
-  background: #333;
+  background: #111;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .app__start {
-  opacity: 0.2;
+  /*opacity: 0.2;*/
   text-align: center;
 }
 
 .app__start__error {
-  color: white;
+  color: var(--app-text-color);
   text-transform: uppercase;
   font-weight: 600;
   font-size: 14px;
@@ -23,7 +27,7 @@
 }
 
 .app__start__message {
-  color: white;
+  color: var(--app-text-color);
   text-transform: uppercase;
   font-weight: 900;
   font-size: 28px;
@@ -32,7 +36,7 @@
 }
 
 .app__start__example {
-  color: white;
+  color: var(--app-text-color);
   font-weight: 600;
   margin: 0 0 20px 0;
   text-transform: uppercase;
@@ -40,7 +44,7 @@
 }
 
 .app__start__example-users {
-  color: white;
+  color: var(--app-text-color);
   list-style: none;
 }
 

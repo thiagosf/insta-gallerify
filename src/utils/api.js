@@ -2,43 +2,44 @@ export default {
   /**
    * Fetch user data
    * @param {string} username
+   * @param {number} limit
    * @returns {Promise.<object[]>}
    */
-  fetchUser(username) {
-    const url = `https://www.instagram.com/${username}/?__a=1`;
+  fetchUser(username, limit = 50) {
+    const url = `https://www.instagram.com/${username}/?__a=1`
     return fetch(url)
       .then(response => {
         if (response.ok === false) {
-          throw new Error("We didn't get API response. Please, try again.");
+          throw new Error('We didn\'t get API response. Please, try again.')
         }
-        return response.json();
+        return response.json()
       })
       .then(result => {
         const {
           graphql: {
             user: { is_private }
           }
-        } = result;
+        } = result
 
         if (is_private) {
-          throw new Error("User profile is private.");
+          throw new Error('User profile is private.')
         }
 
-        let promises = [];
-        let images = [];
+        let promises = []
+        let images = []
         if (result.graphql) {
-          const { id } = result.graphql.user;
+          const { id } = result.graphql.user
           const {
             edges,
             count
-          } = result.graphql.user.edge_owner_to_timeline_media;
+          } = result.graphql.user.edge_owner_to_timeline_media
           const hasNextPage =
             result.graphql.user.edge_owner_to_timeline_media.page_info
-              .has_next_page;
+              .has_next_page
           const endCursor =
             result.graphql.user.edge_owner_to_timeline_media.page_info
-              .end_cursor;
-          const isPrivate = result.graphql.user.is_private;
+              .end_cursor
+          const isPrivate = result.graphql.user.is_private
           if (count > 0 && !isPrivate) {
             images = edges.map(item => {
               return {
@@ -46,38 +47,38 @@ export default {
                 shortcode: item.node.shortcode,
                 timestamp: item.node.taken_at_timestamp,
                 likes: +item.node.edge_liked_by.count
-              };
-            });
+              }
+            })
           }
 
           if (hasNextPage) {
             // @todo: get queryHash dynamic
-            const queryHash = "f2405b236d85e8296cf30347c9f08c2a";
-            const limit = 50;
-            const maxPages = 20;
-            let page = 1;
+            const queryHash = 'f2405b236d85e8296cf30347c9f08c2a'
+            const first = 50
+            const maxPages = 20
+            let page = 1
 
             const loop = endCursor => {
               const query = {
                 query_hash: queryHash,
-                variables: `{"id":"${id}","first":${limit},"after":"${endCursor}"}`
-              };
-              const urlPagination = `https://www.instagram.com/graphql/query?query_hash=${query.query_hash}&variables=${query.variables}`;
+                variables: `{"id":"${id}","first":${first},"after":"${endCursor}"}`
+              }
+              const urlPagination = `https://www.instagram.com/graphql/query?query_hash=${query.query_hash}&variables=${query.variables}`
               return fetch(urlPagination)
                 .then(response => {
-                  return response.json();
+                  return response.json()
                 })
                 .then(result => {
-                  if (result.status === "ok") {
+                  if (result.status === 'ok') {
                     const {
                       edges
-                    } = result.data.user.edge_owner_to_timeline_media;
+                    } = result.data.user.edge_owner_to_timeline_media
                     const hasNextPage =
                       result.data.user.edge_owner_to_timeline_media.page_info
-                        .has_next_page;
+                        .has_next_page
                     const endCursor =
                       result.data.user.edge_owner_to_timeline_media.page_info
-                        .end_cursor;
+                        .end_cursor
 
                     edges.forEach(item => {
                       images.push({
@@ -85,33 +86,35 @@ export default {
                         shortcode: item.node.shortcode,
                         timestamp: item.node.taken_at_timestamp,
                         likes: +item.node.edge_media_preview_like.count
-                      });
-                    });
+                      })
+                    })
 
-                    page++;
+                    page++
 
                     if (hasNextPage && page < maxPages) {
-                      return loop(endCursor);
+                      if (images.length < +limit || +limit === 0) {
+                        return loop(endCursor)
+                      }
                     }
                   }
                 })
                 .catch(error => {
-                  console.log("pagination error:", error);
-                });
-            };
+                  console.log('pagination error:', error)
+                })
+            }
 
-            promises.push(loop(endCursor));
+            promises.push(loop(endCursor))
           }
         }
         if (images.length === 0) {
-          throw new Error("User not found.");
+          throw new Error('User not found.')
         }
         return Promise.all(promises).then(() => {
-          return images;
-        });
+          return images
+        })
       })
       .catch(error => {
-        throw new Error(error);
-      });
+        throw new Error(error)
+      })
   }
-};
+}

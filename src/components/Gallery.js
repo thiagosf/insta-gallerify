@@ -8,8 +8,10 @@ class Gallery extends Component {
   static defaultProps = {
     filters: {},
     images: [],
-    onFavorite: () => {}
-  };
+    onFavorite: () => {},
+    onSelectImage: () => {},
+    thumbView: false
+  }
 
   componentDidUpdate (prevProps) {
     if (
@@ -20,10 +22,10 @@ class Gallery extends Component {
         this.slider.slickGoTo(0)
       }
     }
-  };
+  }
 
   render() {
-    const { images } = this.props
+    const { images, thumbView } = this.props
     const settings = {
       dots: false,
       infinite: true,
@@ -36,6 +38,9 @@ class Gallery extends Component {
     }
     if (images.length === 0) {
       return false
+    }
+    if (thumbView) {
+      return this._getThumbView()
     }
     const slides = images.map((image, index) => {
       return (
@@ -58,12 +63,37 @@ class Gallery extends Component {
         {slides}
       </Slider>
     )
-  };
+  }
+
+  goTo (index) {
+    this.slider.slickGoTo(index, true)
+  }
 
   _onFavorite = photo => {
     imageUtils.toggleFavorite(photo)
     this.props.onFavorite(photo)
-  };
+  }
+
+  _getThumbView = () => {
+    return (
+      <div className="gallery-thumb-view">
+        {this.props.images.map((item, index) => {
+          return (
+            <div key={index} className="gallery-thumb-view__item">
+              <img
+                className="gallery-thumb-view__item__image"
+                src={item.url}
+                alt={item.shortcode}
+                onClick={() => {
+                  this.props.onSelectImage(index)
+                }}
+              />
+            </div>
+          )
+        })}
+      </div>
+    )
+  }
 }
 
 export default Gallery

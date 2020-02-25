@@ -4,26 +4,31 @@ import '../styles/gallery_filters.css'
 
 class GalleryFilters extends Component {
   static defaultProps = {
+    loading: false,
     onChange: () => {},
     filters: {}
-  };
-
-  state = {
-    sort: 'recent',
-    limit: 50
-  };
+  }
 
   render () {
     return (
-      <div className="gallery-filters">
+      <div className={this._getClasses()}>
         {this._getSortFilters()}
         {this._getLimitFilters()}
+        {this._getModeFilters()}
       </div>
     )
-  };
+  }
+
+  _getClasses = () => {
+    let classes = ['gallery-filters']
+    if (this.props.loading) {
+      classes.push('gallery-filters--loading')
+    }
+    return classes.join(' ')
+  }
 
   _getSortFilters = () => {
-    const { sort } = this.state
+    const { sort = 'recent' } = this.props.filters
     const values = [{
       value: 'likes',
       label: 'likes'
@@ -41,10 +46,10 @@ class GalleryFilters extends Component {
         onChange={value => this._onChangeFilter('sort', value)}
       />
     )
-  };
+  }
 
   _getLimitFilters = () => {
-    const { limit } = this.state
+    const { limit = 50 } = this.props.filters
     const values = [{
       value: 10,
       label: 10
@@ -62,13 +67,29 @@ class GalleryFilters extends Component {
         onChange={value => this._onChangeFilter('limit', value)}
       />
     )
-  };
+  }
+
+  _getModeFilters = () => {
+    const { mode = 'gallery' } = this.props.filters
+    const values = [{
+      value: 'gallery',
+      label: 'gallery'
+    }, {
+      value: 'thumb',
+      label: 'thumb'
+    }]
+    return (
+      <GalleryFilter
+        selected={mode}
+        values={values}
+        onChange={value => this._onChangeFilter('mode', value)}
+      />
+    )
+  }
 
   _onChangeFilter = (name, value) => {
-    this.setState({ [name]: value }, () => {
-      this.props.onChange(this.state)
-    })
-  };
+    this.props.onChange(name, value)
+  }
 }
 
 export default GalleryFilters
