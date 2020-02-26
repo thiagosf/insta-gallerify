@@ -14,6 +14,10 @@ class Gallery extends Component {
     thumbView: false
   }
 
+  state = {
+    loaded: []
+  }
+
   componentDidUpdate (prevProps) {
     if (
       this.props.images.length !== prevProps.images.length ||
@@ -76,22 +80,34 @@ class Gallery extends Component {
   }
 
   _getThumbView = () => {
+    let loaded = [...this.state.loaded]
     return (
       <div className="gallery-thumb-view">
-        {this.props.images.map((item, index) => {
-          return (
-            <div key={index} className="gallery-thumb-view__item">
-              <LazyImage
-                className="gallery-thumb-view__item__image"
-                src={item.thumbnail_url}
-                alt={item.shortcode}
-                onClick={() => {
-                  this.props.onSelectImage(index)
-                }}
-              />
-            </div>
-          )
-        })}
+        <div className="gallery-thumb-view__wrapper">
+          {this.props.images.map((item, index) => {
+            let classes = ['gallery-thumb-view__item']
+            if (loaded.includes(item.shortcode)) {
+              classes.push('gallery-thumb-view__item--loaded')
+            }
+            classes = classes.join(' ')
+            return (
+              <div key={index} className={classes}>
+                <LazyImage
+                  className="gallery-thumb-view__item__image"
+                  src={item.thumbnail_url}
+                  alt={item.shortcode}
+                  onClick={() => {
+                    this.props.onSelectImage(index)
+                  }}
+                  onLoad={() => {
+                    loaded.push(item.shortcode)
+                    this.setState({ loaded })
+                  }}
+                />
+              </div>
+            )
+          })}
+        </div>
       </div>
     )
   }
