@@ -1,11 +1,26 @@
 export default {
   /**
+   * Fetch mock
+   * @returns {Promise.<object[]>}
+   */
+  fetchMock() {
+    const response = require('../mock/items.json')
+    const { edges } = response.graphql.user.edge_owner_to_timeline_media
+    return Promise.resolve(
+      edges.map(this.buildImageItem)
+    )
+  },
+
+  /**
    * Fetch user data
    * @param {string} username
    * @param {number} limit
    * @returns {Promise.<object[]>}
    */
   fetchUser(username, limit = 50) {
+    if (username === 'mock') {
+      return this.fetchMock()
+    }
     const url = `https://www.instagram.com/${username}/?__a=1`
     return fetch(url)
       .then(response => {
@@ -41,15 +56,7 @@ export default {
               .end_cursor
           const isPrivate = result.graphql.user.is_private
           if (count > 0 && !isPrivate) {
-            images = edges.map(item => {
-              return {
-                url: item.node.display_url,
-                thumbnail_url: item.node.thumbnail_src,
-                shortcode: item.node.shortcode,
-                timestamp: item.node.taken_at_timestamp,
-                likes: +item.node.edge_liked_by.count
-              }
-            })
+            images = edges.map(this.buildImageItem)
           }
 
           if (hasNextPage) {
@@ -82,13 +89,7 @@ export default {
                         .end_cursor
 
                     edges.forEach(item => {
-                      images.push({
-                        url: item.node.display_url,
-                        thumbnail_url: item.node.thumbnail_src,
-                        shortcode: item.node.shortcode,
-                        timestamp: item.node.taken_at_timestamp,
-                        likes: +item.node.edge_media_preview_like.count
-                      })
+                      images.push(this.buildImageItem(item))
                     })
 
                     page++
@@ -118,5 +119,26 @@ export default {
       .catch(error => {
         throw new Error(error)
       })
+  },
+
+  /**
+   * Build image item
+   * @param {object} item
+   * @returns {object}
+   */
+  buildImageItem (item) {
+    let likes = 0
+    if (item.node.edge_liked_by) {
+      likes = +item.node.edge_liked_by.count
+    } else if (item.node.edge_media_preview_like) {
+      likes = item.node.edge_media_preview_like.count
+    }
+    return {
+      url: item.node.display_url,
+      thumbnail_url: item.node.thumbnail_src,
+      shortcode: item.node.shortcode,
+      timestamp: item.node.taken_at_timestamp,
+      likes
+    }
   }
 }

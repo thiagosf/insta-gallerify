@@ -8,7 +8,7 @@ class Footer extends Component {
         <a className="main-footer__link" href="https://github.com/thiagosf/insta-gallerify">github</a>
       </footer>
     )
-  };
+  }
 }
 
 export default Footer

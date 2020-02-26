@@ -8,7 +8,7 @@ class Spinner extends Component {
         <span className="spinner__circle"></span>
       </div>
     )
-  };
+  }
 }
 
 export default Spinner

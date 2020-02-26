@@ -12,7 +12,8 @@
     "react-dom": "^16.8.6",
     "react-scripts": "3.0.1",
     "react-slick": "^0.24.0",
-    "slick-carousel": "^1.8.1"
+    "slick-carousel": "^1.8.1",
+    "vanilla-lazyload": "^12.5.0"
   },
   "scripts": {
     "start": "react-scripts start",

@@ -10,7 +10,7 @@ class Photo extends Component {
     likes: 0,
     favorite: false,
     onFavorite: () => {}
-  };
+  }
 
   render() {
     const { url } = this.props
@@ -33,7 +33,7 @@ class Photo extends Component {
         <img src={url} alt='' />
       </div>
     )
-  };
+  }
 
   _friendlyLikes = () => {
     const { likes } = this.props
@@ -41,17 +41,17 @@ class Photo extends Component {
       return numeral(likes).format('0.0a')
     }
     return likes
-  };
+  }
 
   _getLink = () => {
     const { shortcode } = this.props
     return `https://www.instagram.com/p/${shortcode}`
-  };
+  }
 
   _getDate = () => {
     const { timestamp } = this.props
     return (new Date(+timestamp * 1000)).toLocaleString()
-  };
+  }
 
   _getFavoriteClasses = () => {
     let classes = ['photo__info__favorite']
@@ -59,7 +59,7 @@ class Photo extends Component {
       classes.push('photo__info__favorite--active')
     }
     return classes.join(' ')
-  };
+  }
 
   _toggleFavorite = () => {
     this.props.onFavorite({
@@ -68,7 +68,7 @@ class Photo extends Component {
       timestamp: this.props.timestamp,
       likes: this.props.likes
     })
-  };
+  }
 }
 
 export default Photo

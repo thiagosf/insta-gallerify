@@ -26,3 +26,7 @@ Fail :see_no_evil:
 - [x] Fullscreen
 - [x] Pagination
 - [x] Share username in URL
+- [ ] Home page with large input search
+- [ ] Improve animations
+- [ ] Button to hide filters
+- [ ] Add filters in url (to share with selected filters)

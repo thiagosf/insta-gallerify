@@ -1,9 +1,32 @@
+.app .slick-prev,
+.app .slick-next {
+  width: 10px;
+  height: 10px;
+  transform: rotate(-45deg);
+}
+.app .slick-next {
+  transform: rotate(135deg);
+}
 .app .slick-next {
   right: 25px;
 }
 
 .app .slick-prev {
   left: 25px;
+}
+.app .slick-prev::before,
+.app .slick-next::before {
+  display: none !important;
+}
+.app .slick-prev::after,
+.app .slick-next::after {
+  border-left: 2px solid white;
+  border-top: 2px solid white;
+  content: "";
+  display: block;
+  width: 100%;
+  height: 100%;
+  opacity: 0.3;
 }
 
 .app .slick-prev,
@@ -47,7 +70,24 @@
 
 }
 .app .gallery-thumb-view__item__image {
+  transition: all 300ms cubic-bezier(0.215, 0.610, 0.355, 1.000);
   width: 100%;
+  cursor: pointer;
+}
+.app .gallery-thumb-view__item__image:hover {
+  transform: scale(1.03);
+  box-shadow: 0 0 0 5px white;
+}
+
+.lazy {
+  transition: all 300ms cubic-bezier(0.215, 0.610, 0.355, 1.000);
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.lazy.loaded {
+  opacity: 1;
+  transform: translateY(0px);
 }
 
 @media (min-width: 768px) {

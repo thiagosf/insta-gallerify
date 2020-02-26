@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Slider from 'react-slick'
 import Photo from './Photo'
+import LazyImage from './LazyImage'
 import { imageUtils } from '../utils'
 import '../styles/gallery.css'
 
@@ -80,7 +81,7 @@ class Gallery extends Component {
         {this.props.images.map((item, index) => {
           return (
             <div key={index} className="gallery-thumb-view__item">
-              <img
+              <LazyImage
                 className="gallery-thumb-view__item__image"
                 src={item.thumbnail_url}
                 alt={item.shortcode}

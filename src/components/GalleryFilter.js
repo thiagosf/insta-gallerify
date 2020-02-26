@@ -5,7 +5,7 @@ class GalleryFilter extends Component {
     onChange: () => {},
     selected: null,
     values: []
-  };
+  }
 
   render () {
     return (
@@ -13,7 +13,7 @@ class GalleryFilter extends Component {
         {this._getItems()}
       </div>
     )
-  };
+  }
 
   _getItems = () => {
     const { values, selected } = this.props
@@ -30,7 +30,7 @@ class GalleryFilter extends Component {
         >{item.label}</span>
       )
     })
-  };
+  }
 }
 
 export default GalleryFilter
