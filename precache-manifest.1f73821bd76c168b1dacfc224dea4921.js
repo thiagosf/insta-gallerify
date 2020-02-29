@@ -1,23 +1,23 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "1ee5039403af8506843a74748a248fdf",
+    "revision": "2c7315986cc83aae16ec45fe9d5eca43",
     "url": "/insta-gallerify/index.html"
   },
   {
-    "revision": "f7beea7a3bc9f1f4778b",
+    "revision": "1c79779998dfad655083",
     "url": "/insta-gallerify/static/css/2.e8537005.chunk.css"
   },
   {
-    "revision": "0399d61f9783352c8575",
-    "url": "/insta-gallerify/static/css/main.94a37171.chunk.css"
+    "revision": "b4217c7de9324e6a7a58",
+    "url": "/insta-gallerify/static/css/main.4fa611c3.chunk.css"
   },
   {
-    "revision": "f7beea7a3bc9f1f4778b",
-    "url": "/insta-gallerify/static/js/2.9e09c621.chunk.js"
+    "revision": "1c79779998dfad655083",
+    "url": "/insta-gallerify/static/js/2.6c147082.chunk.js"
   },
   {
-    "revision": "0399d61f9783352c8575",
-    "url": "/insta-gallerify/static/js/main.670f4987.chunk.js"
+    "revision": "b4217c7de9324e6a7a58",
+    "url": "/insta-gallerify/static/js/main.7a0bc8f6.chunk.js"
   },
   {
     "revision": "c7faf968c87fada0bba1",
