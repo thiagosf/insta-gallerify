@@ -7,7 +7,9 @@ export default {
     const response = require('../mock/items.json')
     const { edges } = response.graphql.user.edge_owner_to_timeline_media
     return Promise.resolve(
-      edges.map(this.buildImageItem)
+      edges
+        .filter(this.filterImages)
+        .map(this.buildImageItem)
     )
   },
 
@@ -56,7 +58,9 @@ export default {
               .end_cursor
           const isPrivate = result.graphql.user.is_private
           if (count > 0 && !isPrivate) {
-            images = edges.map(this.buildImageItem)
+            images = edges
+              .filter(this.filterImages)
+              .map(this.buildImageItem)
           }
 
           if (hasNextPage) {
@@ -88,9 +92,11 @@ export default {
                       result.data.user.edge_owner_to_timeline_media.page_info
                         .end_cursor
 
-                    edges.forEach(item => {
-                      images.push(this.buildImageItem(item))
-                    })
+                    edges
+                      .filter(this.filterImages)
+                      .forEach(item => {
+                        images.push(this.buildImageItem(item))
+                      })
 
                     page++
 
@@ -140,5 +146,14 @@ export default {
       timestamp: item.node.taken_at_timestamp,
       likes
     }
+  },
+
+  /**
+   * Filter images
+   * @param {object} item
+   * @returns {bool}
+   */
+  filterImages (item) {
+    return item.node && item.node.is_video === false
   }
 }

@@ -6,7 +6,8 @@ class GalleryFilters extends Component {
   static defaultProps = {
     loading: false,
     onChange: () => {},
-    filters: {}
+    filters: {},
+    enabled: null
   }
 
   render () {
@@ -23,6 +24,9 @@ class GalleryFilters extends Component {
     let classes = ['gallery-filters']
     if (this.props.loading) {
       classes.push('gallery-filters--loading')
+    }
+    if (this.props.enabled) {
+      classes.push('gallery-filters--enabled')
     }
     return classes.join(' ')
   }

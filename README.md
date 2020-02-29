@@ -19,14 +19,16 @@ Fail :see_no_evil:
 
 - [x] Favicon
 - [x] Sort by: likes, recent
-- [x] Limit: 30, 70, unlimited
+- [x] Limit: 10, 50, unlimited
 - [x] Favorites
 - [x] Thumbs
 - [x] Photo info
 - [x] Fullscreen
 - [x] Pagination
 - [x] Share username in URL
-- [ ] Home page with large input search
+- [x] Filter images only
+- [x] Save scroll position on thumbs view
+- [x] Home page with large input search
 - [ ] Improve animations
-- [ ] Button to hide filters
-- [ ] Add filters in url (to share with selected filters)
+- [x] Button to hide filters
+- [x] Add filters in url (to share with selected filters)

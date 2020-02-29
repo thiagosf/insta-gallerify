@@ -1,5 +1,6 @@
 :root {
   --app-text-color: #555;
+  --ease-default: cubic-bezier(0.215, 0.610, 0.355, 1.000);
 }
 
 .app {
@@ -61,6 +62,27 @@
   border-color: rgba(255, 255, 255, 1);
 }
 
+.app__start__input-box {
+  margin: 0 0 40px 0;
+}
+.app__start__input-box__input {
+  display: block;
+  background: #333;
+  border-radius: 20px;
+  border: 0;
+  color: white;
+  font-size: 18px;
+  width: 150px;
+  height: 40px;
+  text-align: center;
+  font-weight: bold;
+  box-shadow: none !important;
+  margin: 0 auto;
+}
+.app__start__input-box__input:focus {
+  box-shadow: 0 0 0 5px #000 !important;
+}
+
 @media (min-width: 768px) {
   .app__start__error {
     font-size: 16px;
@@ -72,9 +94,26 @@
 
   .app__start__example {
     font-size: 14px;
+    margin: 0;
+  }
+
+  .app__start__example-users li {
+    display: inline-block;
+    margin: 0 10px;
   }
 
   .app__start__example-users li span {
-    font-size: 36px;
+    font-size: 26px;
+  }
+
+  .app__start__input-box__input {
+    height: 60px;
+    border-radius: 30px;
+    font-size: 26px;
+    width: 250px;
+  }
+
+  .app__start__input-box__input:focus {
+    box-shadow: 0 0 0 10px #000 !important;
   }
 }

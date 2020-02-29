@@ -15,7 +15,10 @@ class Gallery extends Component {
   }
 
   state = {
-    loaded: []
+    loaded: [],
+    thumbViewScrollTop: 0,
+    showThumbView: true,
+    selected: null
   }
 
   componentDidUpdate (prevProps) {
@@ -25,6 +28,14 @@ class Gallery extends Component {
     ) {
       if (this.slider) {
         this.slider.slickGoTo(0)
+      }
+    }
+    if (prevProps.thumbView !== this.props.thumbView) {
+      if (this.props.thumbView) {
+        this._setThumbViewScrollTop()
+        setTimeout(() => {
+          document.querySelector('.gallery-thumb-view').addEventListener('scroll', this._onScrollChange)
+        }, 1000)
       }
     }
   }
@@ -80,24 +91,31 @@ class Gallery extends Component {
   }
 
   _getThumbView = () => {
+    const { selected } = this.state
+    const classes = this._getClassesThumbView()
     let loaded = [...this.state.loaded]
     return (
-      <div className="gallery-thumb-view">
+      <div className={classes}>
         <div className="gallery-thumb-view__wrapper">
           {this.props.images.map((item, index) => {
             let classes = ['gallery-thumb-view__item']
             if (loaded.includes(item.shortcode)) {
               classes.push('gallery-thumb-view__item--loaded')
             }
+            if (item.shortcode === selected) {
+              classes.push('gallery-thumb-view__item--selected')
+            }
             classes = classes.join(' ')
             return (
-              <div key={index} className={classes}>
+              <div key={`${index}-${item.shortcode}`} className={classes}>
                 <LazyImage
                   className="gallery-thumb-view__item__image"
                   src={item.thumbnail_url}
                   alt={item.shortcode}
                   onClick={() => {
-                    this.props.onSelectImage(index)
+                    this.setState({ selected: item.shortcode }, () => {
+                      this.props.onSelectImage(index)
+                    })
                   }}
                   onLoad={() => {
                     loaded.push(item.shortcode)
@@ -110,6 +128,34 @@ class Gallery extends Component {
         </div>
       </div>
     )
+  }
+
+  _onScrollChange = event => {
+    const top = document.querySelector('.gallery-thumb-view').scrollTop
+    this.setState({ thumbViewScrollTop: top })
+  }
+
+  _setThumbViewScrollTop = () => {
+    const endTop = this.state.thumbViewScrollTop
+    const el = document.querySelector('.gallery-thumb-view')
+    let showThumbView = true
+    if (endTop > 0) {
+      showThumbView = false
+    }
+    this.setState({ showThumbView }, () => {
+      setTimeout(() => {
+        el.scrollTop = endTop
+        this.setState({ showThumbView: true })
+      }, 200)
+    })
+  }
+
+  _getClassesThumbView = () => {
+    let classes = ['gallery-thumb-view']
+    if (this.state.showThumbView) {
+      classes.push('gallery-thumb-view--enabled')
+    }
+    return classes.join(' ')
   }
 }
 

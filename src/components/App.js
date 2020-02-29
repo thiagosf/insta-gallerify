@@ -10,6 +10,7 @@ import '../styles/app.css'
 class App extends Component {
   state = {
     username: null,
+    tempUsername: null,
     images: [],
     filters: {},
     favorites: [],
@@ -17,6 +18,7 @@ class App extends Component {
     loading: false,
     error: null,
     lastLimit: 50,
+    enabledFilters: false,
     exampleUsers: [
       'angrymikko',
       'jaromvogel',
@@ -34,18 +36,28 @@ class App extends Component {
   }
 
   render () {
-    const { username, images, loading, error } = this.state
+    const {
+      username,
+      images,
+      loading,
+      error,
+      enabledFilters
+    } = this.state
     return (
       <div className="app">
         <Header
           loading={loading}
+          filters={this.state.filters}
           username={username}
           onSetUsername={this._onSetUsername}
+          onEnableFilters={this._onEnableFilters}
+          enabled={!!username}
         />
         <GalleryFilters
           loading={loading}
           filters={this.state.filters}
           onChange={this._onFilter}
+          enabled={enabledFilters}
         />
         {!loading &&
           <Gallery
@@ -65,7 +77,15 @@ class App extends Component {
             {error &&
               <p className="app__start__error">{error}</p>
             }
-            <p className="app__start__message">Fill the username <span role="img" aria-label="point_up">☝️</span></p>
+            <div className="app__start__input-box">
+              <input
+                autoFocus
+                placeholder="@username"
+                className="app__start__input-box__input"
+                onChange={this._onChanageInput}
+                onKeyPress={this._onKeyPressInput}
+              />
+            </div>
             <p className="app__start__example">Examples:</p>
             <ul className="app__start__example-users">
               {this._getExampleUsers()}
@@ -77,34 +97,51 @@ class App extends Component {
     )
   }
 
-  _onSetUsername = username => {
-    if (username) {
-      if (username === '⭐️' || username === 'favorites') {
-        window.history.pushState({}, 'username_favorites', '#/@favorites')
-        document.title = `favorites / Insta Gallerify`
-        const images = imageUtils.getFavorites()
-        if (images.length > 0) {
-          this.setState({ username, images })
+  _onSetUsername = (username, params = null) => {
+    let filters = {
+      ...this.state.filters
+    }
+    if (params) {
+      params.split(',').forEach(item => {
+        const parts = item.split(':')
+        const name = parts[0]
+        let value = parts[1]
+        if (name === 'limit') {
+          value = +value
+        }
+        filters[name] = value
+      })
+    }
+    this.setState({ filters }, () => {
+      const formatedParams = params ? `?${params}` : ''
+      if (username) {
+        if (username === '⭐️' || username === 'favorites') {
+          window.history.pushState({}, 'username_favorites', `#/@favorites${formatedParams}`)
+          document.title = `favorites / Insta Gallerify`
+          const images = imageUtils.getFavorites()
+          if (images.length > 0) {
+            this.setState({ username, images })
+          } else {
+            this.setState({
+              error: 'You have no favorites yet!',
+              username: '',
+              images: []
+            })
+          }
         } else {
-          this.setState({
-            error: 'You have no favorites yet!',
-            username: '',
-            images: []
-          })
+          window.history.pushState({}, `username_${username}`, `#/@${username}${formatedParams}`)
+          document.title = `@${username} / Insta Gallerify`
+          const lastLimit = this.state.filters.limit || this.state.lastLimit || 50
+          if (username !== this.state.username) {
+            this.setState({ loading: true, lastLimit }, () => {
+              return this._loadData(username, this.state.filters.limit)
+            })
+          }
         }
       } else {
-        window.history.pushState({}, `username_${username}`, `#/@${username}`)
-        document.title = `@${username} / Insta Gallerify`
-        const lastLimit = this.state.filters.limit || this.state.lastLimit || 50
-        if (username !== this.state.username) {
-          this.setState({ loading: true, lastLimit }, () => {
-            return this._loadData(username, this.state.filters.limit)
-          })
-        }
+        this.setState({ username: '', images: [] })
       }
-    } else {
-      this.setState({ username: '', images: [] })
-    }
+    })
   }
 
   _loadData = (username, limit) => {
@@ -142,6 +179,7 @@ class App extends Component {
       [name]: value
     }
     this.setState({ filters }, () => {
+      this._changeFiltersInURL()
       if (
         this.state.lastLimit > 0 &&
         (
@@ -173,7 +211,8 @@ class App extends Component {
   _checkUsernameInHash = hash => {
     const parts = hash.split('@')
     if (parts.length > 0) {
-      this._onSetUsername(parts[1])
+      const [username, params] = parts[1].split('?')
+      this._onSetUsername(username, params)
     }
   }
 
@@ -199,6 +238,40 @@ class App extends Component {
     this.setState({ filters }, () => {
       this.gallery.goTo(index)
     })
+  }
+
+  _onEnableFilters = value => {
+    this.setState({ enabledFilters: value })
+  }
+
+  _changeFiltersInURL = () => {
+    const { username, filters } = this.state
+    let formatedParams = []
+    for (let param in filters) {
+      const value = filters[param]
+      formatedParams.push(`${param}:${value}`)
+    }
+    formatedParams = formatedParams.join(',')
+    if (formatedParams) {
+      formatedParams = `?${formatedParams}`
+    }
+    window.history.pushState({}, 'username_favorites', `#/@${username}${formatedParams}`)
+  }
+
+  _onChanageInput = event => {
+    this.setState({
+      tempUsername: event.target.value.trim()
+    })
+  }
+
+  _onKeyPressInput = event => {
+    if (event.key === 'Enter') {
+      this._setValid()
+    }
+  }
+
+  _setValid = () => {
+    this._onSetUsername(this.state.tempUsername)
   }
 }
 
