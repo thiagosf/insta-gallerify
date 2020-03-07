@@ -1,0 +1,20 @@
+{
+    "name": "Insta Gallerify",
+    "short_name": "Insta Gallerify",
+    "icons": [
+        {
+            "src": "/android-chrome-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/android-chrome-256x256.png",
+            "sizes": "256x256",
+            "type": "image/png"
+        }
+    ],
+    "theme_color": "#499fde",
+    "background_color": "#499fde",
+    "start_url": "https://thiagosf.github.io/insta-gallerify/",
+    "display": "standalone"
+}
