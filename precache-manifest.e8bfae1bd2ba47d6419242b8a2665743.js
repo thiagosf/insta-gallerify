@@ -1,27 +1,31 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "8462fbd8f8a5e109ca58ee246634e7aa",
+    "revision": "060ed7d54f90b32d47ca5f5767ddea80",
     "url": "/insta-gallerify/index.html"
   },
   {
-    "revision": "1c79779998dfad655083",
+    "revision": "f8f8688b18975f3501df",
     "url": "/insta-gallerify/static/css/2.e8537005.chunk.css"
   },
   {
-    "revision": "b4217c7de9324e6a7a58",
-    "url": "/insta-gallerify/static/css/main.4fa611c3.chunk.css"
+    "revision": "630540af4cfe07f535b9",
+    "url": "/insta-gallerify/static/css/main.8ef30efb.chunk.css"
   },
   {
-    "revision": "1c79779998dfad655083",
-    "url": "/insta-gallerify/static/js/2.6c147082.chunk.js"
+    "revision": "f8f8688b18975f3501df",
+    "url": "/insta-gallerify/static/js/2.4b667b6c.chunk.js"
   },
   {
-    "revision": "b4217c7de9324e6a7a58",
-    "url": "/insta-gallerify/static/js/main.7a0bc8f6.chunk.js"
+    "revision": "630540af4cfe07f535b9",
+    "url": "/insta-gallerify/static/js/main.d5fd6418.chunk.js"
   },
   {
     "revision": "c7faf968c87fada0bba1",
     "url": "/insta-gallerify/static/js/runtime~main.678c0bb6.js"
+  },
+  {
+    "revision": "0e086e20ccdd93f6411956659c29f144",
+    "url": "/insta-gallerify/static/media/logo.0e086e20.png"
   },
   {
     "revision": "b7c9e1e479de3b53f1e4e30ebac2403a",
