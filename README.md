@@ -32,3 +32,7 @@ Fail :see_no_evil:
 - [ ] Improve animations
 - [x] Button to hide filters
 - [x] Add filters in url (to share with selected filters)
+
+## References
+
+* [Favicon generator](https://realfavicongenerator.net/)
