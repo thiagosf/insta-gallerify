@@ -5,6 +5,7 @@ import Gallery from './Gallery'
 import GalleryFilters from './GalleryFilters'
 import Spinner from './Spinner'
 import { api, imageUtils } from '../utils'
+import logo from '../assets/images/logo.png'
 import '../styles/app.css'
 
 class App extends Component {
@@ -74,6 +75,9 @@ class App extends Component {
         }
         {images.length === 0 && !loading &&
           <div className="app__start">
+            <div className="app__start__logo">
+              <img src={logo} alt="Insta Gallerify" />
+            </div>
             {error &&
               <p className="app__start__error">{error}</p>
             }

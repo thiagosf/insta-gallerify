@@ -13,8 +13,21 @@
 }
 
 .app__start {
-  /*opacity: 0.2;*/
   text-align: center;
+}
+
+.app__start__logo {
+  background: #499FDE;
+  width: 90px;
+  height: 90px;
+  border-radius: 20px;
+  margin: 0 auto 20px auto;
+}
+
+.app__start__logo img {
+  display: block;
+  width: 100%;
+  padding: 5px;
 }
 
 .app__start__error {
@@ -84,6 +97,13 @@
 }
 
 @media (min-width: 768px) {
+  .app__start__logo {
+    width: 128px;
+    height: 128px;
+    border-radius: 30px;
+    margin: 0 auto 30px auto;
+  }
+
   .app__start__error {
     font-size: 16px;
   }
